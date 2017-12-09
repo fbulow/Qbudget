@@ -2,17 +2,30 @@ import unittest
 
 Tc = unittest.TestCase
 
+def categoryKey(name):
+    return name[3:]
+
+def getCategory(fcn):
+    key = categoryKey(fcn.__name__)
+    def ret(self, year, month, person):
+        return self.get((key, year, month, person),[])
+    return ret
+def setCategory(fcn):
+    key = categoryKey(fcn.__name__)
+    def ret(self, year, month, person, ammount, comment):
+        self[(key, year, month, person)] = self.get(key, []) + [tuple([ammount, comment])]
+    return ret
+
+
 class Notes(dict):
-    def addIncome(self, year, month, person, ammount, comment):
-        self[(1, year, month, person)] = \
-        self.getIncome(year, month, person) + [tuple([ammount, comment])]
-    def getIncome(self, year, month, person):
-        return self.get((1, year, month, person), [])
-    def addMutualExpense(self, year, month, person, ammount, comment):
-        self[(2, year, month, person)] = \
-        self.getMutualExpense(year, month, person) + [tuple([ammount, comment])]
-    def getMutualExpense(self, year, month, person):
-        return self.get((2, year, month, person), [])
+    @setCategory
+    def addIncome(self, year, month, person, ammount, comment):pass
+    @getCategory
+    def getIncome(self, year, month, person):pass
+    @setCategory
+    def addMutualExpense(self, year, month, person, ammount, comment):pass
+    @getCategory
+    def getMutualExpense(self, year, month, person):pass
 
 class NoMixing(Tc):
     def test_logged(self):
