@@ -29,6 +29,28 @@ def addMultipleIncome(notes, time):
 
     
 class TestTransaction(Tc):                
+    def test_multipleItems_NoMix(self):
+        time = Month(2012,5)
+        sut=Notes()
+        
+        addMultipleIncome(sut, time)
+        sut.addMutualExpense(
+            time = time,
+            person = "Fredrik",
+            ammount = 1.00,
+            comment = "Expense comment")
+        
+        self.assertEqual(sut.getMutualExpense(
+            time = time,
+            person = "Fredrik"),
+        [(1.00, "Expense comment")])
+        
+        self.assertEqual(sut.getIncome(
+            time = time,
+            person = "Fredrik"),
+                         [(6000.00, "CSNA"),
+                          (3000.00, "CSNB"),
+                          (3000.00, "CSNC")])
         
     def test_multipleItems(self):
         time = Month(2012,5)
