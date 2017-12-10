@@ -5,29 +5,36 @@ from notes import *
 
 def Month(*arg):
     return tuple(arg)
+
+
+
+def addMultipleIncome(notes, time):
+    notes.addIncome(
+        time = time,
+        person = "Fredrik",
+        ammount = 6000.00,
+        comment = "CSNA")
+    
+    notes.addIncome(
+        time = time,
+        person = "Fredrik",
+        ammount = 3000.00,
+        comment = "CSNB")
+
+    notes.addIncome(
+        time = time,
+        person = "Fredrik",
+        ammount = 3000.00,
+        comment = "CSNC")
+
+    
+class TestTransaction(Tc):                
         
-class TestTransaction(Tc):
     def test_multipleItems(self):
         time = Month(2012,5)
-        
         sut=Notes()
-        sut.addIncome(
-            time = time,
-            person = "Fredrik",
-            ammount = 6000.00,
-            comment = "CSNA")
         
-        sut.addIncome(
-            time = time,
-            person = "Fredrik",
-            ammount = 3000.00,
-            comment = "CSNB")
-        
-        sut.addIncome(
-            time = time,
-            person = "Fredrik",
-            ammount = 3000.00,
-            comment = "CSNC")
+        addMultipleIncome(sut, time)
         
         ret = sut.getIncome(
             time = time,
