@@ -5,15 +5,12 @@ def getCategory(fcn):
     keyName = _categoryKey(fcn.__name__)
     def ret(self, time, person):
         key = (keyName, time, person)
-        print("get",key)
         return self.get(key,[])
     return ret
 def setCategory(fcn):
     keyName = _categoryKey(fcn.__name__)
     def ret(self, time, person, ammount, comment):
         key = (keyName, time, person)
-        print("set",key, self.get(key, []) + [tuple([ammount, comment])])
-
         self[key] = self.get(key, []) + [tuple([ammount, comment])]
     return ret
 
