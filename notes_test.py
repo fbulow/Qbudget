@@ -8,6 +8,7 @@ def Month(*arg):
 
 
 
+
 def addMultipleIncome(notes, time):
     notes.addIncome(
         time = time,
@@ -28,7 +29,33 @@ def addMultipleIncome(notes, time):
         comment = "CSNC")
 
     
-class TestTransaction(Tc):                
+class TestTransaction(Tc):
+    def test_helen_and_fredrik_NoMix(self):
+        time = Month(2012,5)
+        sut=Notes()
+        
+        sut.addMutualExpense(
+            time = time,
+            person = "Fredrik",
+            ammount = 1.00,
+            comment = "Expense comment")
+
+        sut.addMutualExpense(
+            time = time,
+            person = "Helen",
+            ammount = 2.00,
+            comment = "Expense comment")
+
+        self.assertEqual(sut.getMutualExpense(
+            time = time,
+            person = "Fredrik"),
+        [(1.00, "Expense comment")])
+        self.assertEqual(sut.getMutualExpense(
+            time = time,
+            person = "Helen"),
+        [(2.00, "Expense comment")])
+        
+
     def test_multipleItems_NoMix(self):
         time = Month(2012,5)
         sut=Notes()
