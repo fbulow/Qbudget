@@ -1,28 +1,37 @@
-def _categoryKey(name):
-    return name[3:]
+def upFirstLetter(words):
+    return words[:1].upper()+words[1:]
 
-def getCategory(fcn):
-    keyName = _categoryKey(fcn.__name__)
-    def ret(self, time, person):
-        key = (keyName, time, person)
-        return self.get(key,[])
+def defLabel(fcn):
+    def ret(notes, label):
+        assert(label == upFirstLetter(label))
+        return fcn(notes, label)
     return ret
-def setCategory(fcn):
-    keyName = _categoryKey(fcn.__name__)
-    def ret(self, time, person, ammount, comment):
-        key = (keyName, time, person)
+
+@defLabel            
+def defAdd(notes, label):
+    def adder(self, time, person, ammount, comment):
+        key = tuple([label, time, person])
         self[key] = self.get(key, []) + [tuple([ammount, comment])]
-    return ret
-
+    setattr(notes,
+             "add"+label,
+             adder)
+    
+@defLabel            
+def defGet(notes, label):
+    def getter(self, time, person):
+        key = tuple([label, time, person])
+        return self.get(key, [])
+    setattr(notes,
+             "get"+label,
+             getter)
+    
+@defLabel            
+def defCategory(notes, label):
+    defGet(notes, label)
+    defAdd(notes, label)
 
 class Notes(dict):
-    @setCategory
-    def addIncome(self, time, person, ammount, comment):pass
-    @getCategory
-    def getIncome(self, time, person):pass
-    
-    @setCategory
-    def addMutualExpense(self, time, person, ammount, comment):pass
-    @getCategory
-    def getMutualExpense(self, time, person):pass
+    pass
 
+defCategory(Notes, "Income")
+defCategory(Notes, "MutualExpense")
