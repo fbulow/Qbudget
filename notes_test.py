@@ -57,7 +57,11 @@ class TestTransaction(Tc):
             comment = "Expense comment")
 
         self.assertEqual(
-            sut.helenOwesFredrik(),
+            sut.owes("Helen", time),
+            0.0)
+        
+        self.assertEqual(
+            sut.owes("Fredrik", time),
             0.0)
         
     def test_helen_and_fredrik_NoMix(self):

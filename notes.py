@@ -31,7 +31,8 @@ def defCategory(notes, label):
     defAdd(notes, label)
 
 class Notes(dict):
-    pass
-
-defCategory(Notes, "Income")
-defCategory(Notes, "MutualExpense")
+    def __init__(self):
+        defCategory(Notes, "Income")
+        defCategory(Notes, "MutualExpense")
+    def owes(self, personInDebt, time):
+        return 1.0;
