@@ -29,7 +29,7 @@ def addMultipleIncome(notes, time):
         comment = "CSNC")
     
 class TestTransaction(Tc):
-    def test_helen_owes_fredrik(self):
+    def test_bowing(self):
         sut=Notes()
         time = Month(2012,5)
         sut.addIncome(
@@ -57,12 +57,23 @@ class TestTransaction(Tc):
             comment = "Expense comment")
 
         self.assertEqual(
-            sut.owes("Helen", time),
+            sut.owes(time, "Helen"),
             0.0)
         
         self.assertEqual(
-            sut.owes("Fredrik", time),
+            sut.owes(time, "Fredrik"),
             0.0)
+        
+    def test_totalIncome(self):
+        time = Month(2012,5)
+        sut = Notes()
+
+        sut.addIncome(time, "Fredrik",  1000.00, "A")
+        sut.addIncome(time, "Helen",    2000.00, "B")
+        sut.addIncome(time, "Freddrik",   20.00, "C")
+
+        self.assertEqual( sut.totalIncome(time), 3020.00)
+        
         
     def test_helen_and_fredrik_NoMix(self):
         time = Month(2012,5)
