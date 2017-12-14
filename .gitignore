@@ -100,5 +100,7 @@ ENV/
 # mypy
 .mypy_cache/
 
-# backups
+# emacs
 *~
+TAGS
+
