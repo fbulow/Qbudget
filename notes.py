@@ -1,3 +1,7 @@
+from collections import namedtuple
+
+Key = namedtuple("Key", "label, time, person")
+
 def upFirstLetter(words):
     return words[:1].upper()+words[1:]
 
@@ -10,7 +14,7 @@ def defLabel(fcn):
 @defLabel            
 def defAdd(notes, label):
     def adder(self, time, person, ammount, comment):
-        key = tuple([label, time, person])
+        key = Key(label, time, person)
         self[key] = self.get(key, []) + [tuple([ammount, comment])]
     setattr(notes,
              "add"+label,
@@ -19,8 +23,7 @@ def defAdd(notes, label):
 @defLabel            
 def defGet(notes, label):
     def getter(self, time, person):
-        key = tuple([label, time, person])
-        return self.get(key, [])
+        return self.get(Key(label, time, person), [])
     setattr(notes,
              "get"+label,
              getter)
@@ -34,5 +37,10 @@ class Notes(dict):
     def __init__(self):
         defCategory(Notes, "Income")
         defCategory(Notes, "MutualExpense")
-    def owes(self, personInDebt, time):
+
+    def totalIncome(self, time):
+        return sum(
+            sum(x[0] for x in v) for k, v  in self.items() if k.time==time)
+            
+    def owes(self, time, person):
         return 1.0;
